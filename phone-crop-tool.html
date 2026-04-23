@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PhoneCrop — Mass Image Cropper</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="phone-crop-tool.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 16 16" fill="none">
+            <rect
+              x="3"
+              y="1"
+              width="10"
+              height="14"
+              rx="2"
+              stroke="#111"
+              stroke-width="1.5"
+            />
+            <line
+              x1="5"
+              y1="13.5"
+              x2="11"
+              y2="13.5"
+              stroke="#111"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+        PhoneCrop
+      </div>
+      <span class="badge">mass image cropper</span>
+    </header>
+
+    <main>
+      <!-- Mobile detect banner (shown only on mobile) -->
+      <div class="detect-banner" id="detectBanner" style="display: none">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <rect
+            x="2"
+            y="0.5"
+            width="10"
+            height="13"
+            rx="2"
+            stroke="currentColor"
+            stroke-width="1.2"
+          />
+          <line
+            x1="4.5"
+            y1="11.5"
+            x2="9.5"
+            y2="11.5"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+          />
+        </svg>
+        Looks like you're on a mobile device —
+        <button class="detect-btn" id="detectBtn">
+          use this screen's resolution
+        </button>
+      </div>
+
+      <!-- Toolbar: Device Presets -->
+      <div class="toolbar">
+        <span class="toolbar-label">Device</span>
+        <select class="device-select" id="deviceSelect"></select>
+        <div class="custom-ratio">
+          <span class="toolbar-label">Custom</span>
+          <input
+            class="ratio-input"
+            id="customW"
+            type="number"
+            value="1320"
+            min="1"
+            max="9999"
+            placeholder="W"
+          />
+          <span class="ratio-sep">:</span>
+          <input
+            class="ratio-input"
+            id="customH"
+            type="number"
+            value="2868"
+            min="1"
+            max="9999"
+            placeholder="H"
+          />
+          <button class="custom-apply" id="applyCustom">Apply</button>
+        </div>
+      </div>
+
+      <!-- Crop position -->
+      <div class="pos-row">
+        <span class="pos-label">Crop anchor</span>
+        <div class="pos-btns">
+          <button class="pos-btn" data-pos="top">Top</button>
+          <button class="pos-btn active" data-pos="center">Center</button>
+          <button class="pos-btn" data-pos="bottom">Bottom</button>
+        </div>
+        <span class="pos-label">Horizontal</span>
+        <div class="pos-btns">
+          <button class="pos-btn" data-hpos="left">Left</button>
+          <button class="pos-btn active" data-hpos="center">Center</button>
+          <button class="pos-btn" data-hpos="right">Right</button>
+        </div>
+      </div>
+
+      <!-- Drop zone -->
+      <div class="drop-section">
+        <div class="drop-zone" id="dropZone">
+          <input type="file" id="fileInput" accept="image/*" multiple />
+          <div class="drop-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path
+                d="M11 3v12M7 7l4-4 4 4"
+                stroke="#666"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M3 16v1a2 2 0 002 2h12a2 2 0 002-2v-1"
+                stroke="#666"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <div class="drop-title">Drop images here</div>
+          <div class="drop-sub">
+            or click to browse — JPG, PNG, WEBP, GIF supported
+          </div>
+        </div>
+      </div>
+
+      <!-- Image grid -->
+      <div class="images-section">
+        <div class="section-header">
+          <div class="section-title">
+            Images
+            <span class="count-badge" id="countBadge">0</span>
+          </div>
+          <div class="action-row">
+            <button class="btn-clear" id="clearBtn">Clear all</button>
+            <button class="btn-download" id="downloadBtn" disabled>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path
+                  d="M7 1v8M4 6l3 3 3-3M2 10v1.5A1.5 1.5 0 003.5 13h7A1.5 1.5 0 0012 11.5V10"
+                  stroke="#111"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Download ZIP
+            </button>
+          </div>
+        </div>
+
+        <div class="image-grid" id="imageGrid">
+          <div class="empty-state" id="emptyState">
+            <p>No images yet — upload some above</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="status-bar">
+      <div class="status-dot" id="statusDot"></div>
+      <span class="status-text" id="statusText">Ready</span>
+      <span class="ratio-display" id="ratioDisplay">1320:2868</span>
+    </div>
+
+    <script src="phone-crop-tool.js"></script>
+  </body>
+</html>
